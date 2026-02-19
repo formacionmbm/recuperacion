@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Packages</title>
+    <meta charset="UTF-8">
+    <style>
+        table { border-collapse: collapse; width: 90%; margin: 20px auto; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        .search-box { text-align:center; margin-top:20px; }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Búsqueda de Librerias</h2>
+
+<!-- 🔎 Formulario -->
+<div class="search-box">
+    <form method="post" >
+        <input type="text"
+               name="texto"
+               th:value="${texto}"
+               placeholder="Buscar por categorias"/>
+
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+<!-- 📄 Listado de categorias-->
+<div>
+<table>
+    <thead>
+    <tr>
+        <th>Categorias Disponibles</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <!-- Categorías en una sola celda -->
+        <td>
+            <span th:each="cat, iter : ${listado}">
+                <span th:text="${cat.name}"></span>
+                <span th:if="${!iter.last}">, </span>
+            </span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+
+<!-- 📄 Tabla de Librerias -->
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>GroupId</th>
+        <th>ArtifactId</th>
+        <th>Version</th>
+        <th>Categorías</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="element : ${elements}">
+        <td th:text="${element.id}"></td>
+        <td th:text="${element.groupId}"></td>
+        <td th:text="#{element.groupId}"></td>
+        <td th:text="${element.version}"></td>
+
+        <!-- Categorías en una sola celda -->
+        <td>
+            <span th:if="${element.categories != null}"
+                  th:each="cat, iter : ${element.categories}">
+                <span th:text="${cat.name}"></span>
+                <span th:if="${!iter.last}">, </span>
+            </span>
+        </td>
+    </tr>
+
+    <!-- Si no hay resultados -->
+    <tr th:if="${#lists.isEmpty(elements)}">
+        <td colspan="5" style="text-align:center;">No se encontraron resultados</td>
+    </tr>
+
+    </tbody>
+</table>
+
+</body>
+</html>
