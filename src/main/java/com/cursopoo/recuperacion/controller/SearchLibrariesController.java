@@ -31,7 +31,7 @@ public class SearchLibrariesController {
     }
 
     @PostMapping("/")
-    public String search(@RequestParam("texto") String texto, Model model){
+    public String search(@RequestParam("text") String texto, Model model){
         log.info("[search]");
         log.debug("[texto:{}]", texto);
 
