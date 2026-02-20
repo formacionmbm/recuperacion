@@ -21,7 +21,7 @@ import static com.cursopoo.recuperacion.buscador.util.TextUtilities.procesarText
 @Slf4j
 @RequiredArgsConstructor
 public class SearchLibraries implements Search {
-
+    //ESTA
     private final LibraryRepository repository;
     private final CategoryRepository categoryRepository;
 
@@ -30,56 +30,53 @@ public class SearchLibraries implements Search {
         log.info("[findAllLibraries]");
         try{
 
-            return List.of();
+            return  repository.findAll();
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new AppException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
     }
 
     @Override
+
     public List<Category> findAllCategories() {
         log.info("[findAllCategories]");
-        try{
-            Category catFramework = new Category(1L, "DB");
-            Category catSecurity = new Category(2L, "SECURITY");
-            List<Category> allCategories = List.of(catFramework, catSecurity);
-
-            return allCategories;
+        try {
+            return categoryRepository.findAll();
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
-            throw new AppException(e.getMessage());
+            log.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         }
     }
 
-    public List<Library> findLibrariesByTexto(String texto){
+    @Override
+    public List<Library> findLibrariesByTexto(String texto) {
         log.info("[findLibrariesByTexto]");
-        log.debug("[texto:{}]",texto);
-
-        List<Library> libraries=new ArrayList<>();
+        log.debug("[texto:{}]", texto);
 
         try {
-
+            if (texto == null || texto.trim().isEmpty()) {
+                throw new ServiceException("Texto no puede ser nulo o vacío");
+            }
 
             texto = procesarTexto(texto);
-
-
-
             String[] nameCategories = texto.split(" ");
 
+            List<Library> libraries = new ArrayList<>();
+
             for (String nameCategory : nameCategories) {
-                log.debug("Buscamos la categoría:{}",nameCategory);
-                Optional<Category> category = categoryRepository.findByNombre(nameCategory);
-                if(category.isPresent()){
+                Optional<Category> category = categoryRepository.findByName(nameCategory);
+
+                if (category.isPresent()) {
                     libraries.addAll(repository.findByCategory(category.get()));
                 }
             }
-            log.debug("[libraries:{}]",libraries);
+
             return libraries;
 
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
-            throw new AppException(e.getMessage());
+            log.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         }
     }
 }

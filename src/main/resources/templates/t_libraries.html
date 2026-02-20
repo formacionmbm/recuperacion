@@ -13,7 +13,7 @@
 
 <h2 style="text-align:center;">Búsqueda de Librerias</h2>
 
-<!-- 🔎 Formulario -->
+<!-- 🔎 Formulario   //ESTA -->
 <div class="search-box">
     <form method="post" >
         <input type="text"
@@ -61,7 +61,7 @@
     <tr th:each="element : ${elements}">
         <td th:text="${element.id}"></td>
         <td th:text="${element.groupId}"></td>
-        <td th:text="#{element.groupId}"></td>
+        <td th:text="${element.artifactId}"></td>
         <td th:text="${element.version}"></td>
 
         <!-- Categorías en una sola celda -->

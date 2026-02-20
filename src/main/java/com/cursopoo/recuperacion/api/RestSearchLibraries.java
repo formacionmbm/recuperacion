@@ -5,10 +5,7 @@ import com.cursopoo.recuperacion.entities.Category;
 import com.cursopoo.recuperacion.entities.Library;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,17 +14,17 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class RestSearchLibraries {
-
+//ESTA
     private final Search search;
 
-    @GetMapping("/li")
+    @GetMapping("/l")
     public List<Library> findAll(){
         log.info("[findAll]");
         return search.findAllLibraries();
     }
 
     @PostMapping("/li/s")
-    public List<Library> search(String texto){
+    public List<Library> search(@RequestParam("texto") String texto){
         log.info("[search]");
         log.debug("[texto:{}",texto);
 

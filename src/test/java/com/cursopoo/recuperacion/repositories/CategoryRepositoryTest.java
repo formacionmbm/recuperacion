@@ -27,7 +27,7 @@ class CategoryRepositoryTest {
         categoryRepository.save(category);
 
         // Act
-        Optional<Category> result = categoryRepository.findByNombre("BBDD");
+        Optional<Category> result = categoryRepository.findByName("BBDD");
 
         // Assert
         assertThat(result).isPresent();

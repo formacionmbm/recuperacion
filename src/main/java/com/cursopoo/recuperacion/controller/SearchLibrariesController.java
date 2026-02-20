@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/")
 public class SearchLibrariesController {
-
+    //ESTA
     private static final String VIEW_SEARCH = "t_libraries";
     private final Search search;
 
@@ -29,25 +30,23 @@ public class SearchLibrariesController {
         return VIEW_SEARCH;
     }
 
-    @PostMapping
-    public String search(String texto, Model model){
+    @PostMapping("/")
+    public String search(@RequestParam("texto") String texto, Model model){
         log.info("[search]");
-        log.debug("[texto:{}",texto);
+        log.debug("[texto:{}]", texto);
 
-        List<Library> libraries= search.findLibrariesByTexto(texto);
-        log.debug("Packages find: {}",libraries);
+        List<Library> libraries = search.findLibrariesByTexto(texto);
+
         loadCategories(model);
 
-        model.addAttribute("elements",libraries);
-        model.addAttribute("texto",texto);
+        model.addAttribute("elements", libraries);
+        model.addAttribute("texto", texto);
 
         return VIEW_SEARCH;
     }
 
     private void loadCategories(Model model){
-        log.debug("[loadCategories]");
         List<Category> categories = search.findAllCategories();
-        model.addAttribute("categories",categories);
-
+        model.addAttribute("listado", categories);
     }
 }
